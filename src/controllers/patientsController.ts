@@ -26,9 +26,40 @@ const MedicalReports = require('../model/medicalReports')
 
 export async function getPatientSignUpForm(req: Request, res: Response): Promise<void>{
   try{
-    const hospitals = await Hospitals.find()
-    res.render('patient-signup', {title: "Patient Sign Up Page", hospitals})
-    // res.redirect('/patient-signup')
+
+    if(req.cookies.myCookie){
+      console.log(req.cookies)
+      const token = req.cookies.myCookie
+      console.log(token)
+      const decoded: any = jwt.verify(token, secret)
+      console.log(decoded)
+      if(decoded.who === "patient"){
+        const patient = await Patients.findOne({ _id: decoded.id, 'tokens.token': token })
+        console.log(patient)
+        if (!patient) {
+          const hospitals = await Hospitals.find()
+          res.render('patient-signup', {title: "Patient Sign Up Page", hospitals})
+        }else{
+          res.redirect(`/patient-dashboard`)
+        }
+      }else{
+        const hospital = await Hospitals.findOne({ _id: decoded.id, 'tokens.token': token })
+        console.log(hospital)
+        if (!hospital) {
+          const hospitals = await Hospitals.find()
+          res.render('patient-signup', {title: "Patient Sign Up Page", hospitals})
+        }else{
+          res.redirect(`/hospital-dashboard`)
+        }
+      }
+    }else{
+      const hospitals = await Hospitals.find()
+      res.render('patient-signup', {title: "Patient Sign Up Page", hospitals})
+    }
+
+    // const hospitals = await Hospitals.find()
+    // res.render('patient-signup', {title: "Patient Sign Up Page", hospitals})
+
   }catch(err){
     console.log(err)
   }
@@ -37,13 +68,14 @@ export async function getPatientSignUpForm(req: Request, res: Response): Promise
 export async function postPatientSignUp(req: Request, res: Response): Promise<void>{
   try{
     const patient = await Patients.findOne({email : req.body.email})
+    const hospitals = await Hospitals.find()
     if(patient){
       // res.send("Email already exists")
-      res.render('patient-signup', {title : "Patient Sign Up Page", error : "Patient with entered email already exists"})
+      res.render('patient-signup', {title : "Patient Sign Up Page", error : "Patient with entered email already exists", hospitals})
     }else{
       if(!validator.validate(req.body.email)){
         // res.send("Incorrectly formed email")
-        res.render('patient-signup', {title : "Patient Sign Up Page", error : "Incorrectly formed email"})
+        res.render('patient-signup', {title : "Patient Sign Up Page", error : "Incorrectly formed email", hospitals})
       }else{
         const domainName = req.body.email.split('@')[1]
         const resolveBool = await dns
@@ -58,7 +90,7 @@ export async function postPatientSignUp(req: Request, res: Response): Promise<vo
         });
         if(!resolveBool){
           // res.send("Invalid email")
-          res.render('patient-signup', {title : "Patient Sign Up Page", error : "Invalid email"})
+          res.render('patient-signup', {title : "Patient Sign Up Page", error : "Invalid email", hospitals})
         }else{
           const {name, dateOfBirth, email, password, hospital, mobile, gender}  = req.body
           const userPass = await bcrypt.hash(password , 10)
@@ -75,7 +107,7 @@ export async function postPatientSignUp(req: Request, res: Response): Promise<vo
           // const id = savePatient._id
           if(savePatient){
             // res.send(`Saved!, ${id}`)
-            res.redirect('/patient-login-page.html')
+            res.redirect('/')
           }else{
             throw{
               message : 'Unable to save'
@@ -122,11 +154,13 @@ export async function postPatientSignIn(req: any, res: any): Promise<void>{
       // res.send('logged in')
     }else{
       // res.render('patient-signup', {title : "Patient Sign Up Page", error : "Incorrectly formed email"})
-      res.send('invalid details check')
+      res.redirect('/patient-login-page.html')
+      // res.send('invalid details check')
     }
   }catch(err){
     console.log(err)
-    res.send('invalid email')
+    res.redirect('/patient-login-page.html')
+    // res.send('invalid email')
   }
 }
 
@@ -151,7 +185,13 @@ export async function getPatientDashboard(req: any, res: Response): Promise<void
 
       return userObject
     }
-    const year = patient.dateOfBirth.split('/')[2]
+    const reg = /[0-9]+\/[a-z]+\/[0-9]+/
+    let year
+    if(patient.dateOfBirth.match(reg)){
+      year = patient.dateOfBirth.split('/')[2]
+    }else{
+      year = patient.dateOfBirth.split('-')[0]
+    }
     const date = new Date
     const age = date.getFullYear() - year
     // res.send({patient, appointments})
@@ -171,6 +211,6 @@ export async function getPatientLogout (req:any, res: Response): Promise<void> {
       // res.send('loggedout')
       res.redirect('/')
   } catch (e) {
-      res.status(500).send('error')
+      res.status(500).send('error.')
   }
 }

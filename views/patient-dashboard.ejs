@@ -27,10 +27,12 @@
 
 
             </div>
-            <div class="live-chat">
-                <i class="far fa-comment"></i>
-                <span>Chat</span>
-            </div>
+            <a href="/chat">
+              <div class="live-chat">
+                  <i class="far fa-comment"></i>
+                  <span>Chat</span>
+              </div>
+            </a>
 
 
             <div class="content">
@@ -173,9 +175,16 @@
                 <div class="number">29</div>
                 <div class="number">30</div>
             </div> -->
+            <div class="appointment">
+              <div class="icons"><i class="fas fa-plus"></i></div>
+              <div class="details2">
+                  <a href="/appointment.html">Create new appointment</a>
+              </div>
+
+            </div>
             <div class="text"><h3>Daily appointments</h3></div>
             <div class="appointments">
-              <% if (locals.appointments) { %>
+              <% if (locals.appointments.length !== 0) { %>
 
                 <% for (let i = 0; i< 2; i++) { %>
                   <% if (i % 2 === 0) { %>
@@ -201,15 +210,43 @@
                   <% } %>
                 <% } %>
 
-              <% } %>
+                <div class="appointment">
+                  <div class="icons"><i class="fas fa-tooth"></i></div>
+                  <div class="details2">
+                      <h4>Test</h4>
+                      <h5>Test</h5>
+                      <h5>Test</h5>
+                      <!-- <span>Dr Traversy</span> -->
+                  </div>
+                </div>
 
                 <div class="appointment">
-                    <div class="icons"><i class="fas fa-plus"></i></div>
-                    <div class="details2">
-                        <a href="/appointment.html">Create new appointment</a>
-                    </div>
-
+                  <div class="icons"><i class="fas fa-tooth"></i></div>
+                  <div class="details2">
+                      <h4>Test</h4>
+                      <h5>Test</h5>
+                      <h5>Test</h5>
+                      <!-- <span>Dr Traversy</span> -->
+                  </div>
                 </div>
+
+                <div class="appointment">
+                  <div class="icons"><i class="fas fa-tooth"></i></div>
+                  <div class="details2">
+                      <h4>Test</h4>
+                      <h5>Test</h5>
+                      <h5>Test</h5>
+                      <!-- <span>Dr Traversy</span> -->
+                  </div>
+                </div>
+
+              <% }else{ %>
+                <div class="appointment">
+                  <h4>No appointments scheduled yet</h4>
+                </div>
+              <% } %>
+
+
             </div>
 
         </div>

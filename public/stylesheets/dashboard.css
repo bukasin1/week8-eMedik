@@ -255,6 +255,8 @@ img{
     display: grid;
     grid-template-columns: auto;
     grid-gap: 30px;
+    overflow-y: scroll;
+    height: 80vh;
 }
 
 .others{

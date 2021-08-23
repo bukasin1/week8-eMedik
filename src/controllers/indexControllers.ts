@@ -28,29 +28,33 @@ const Appointments = require('../model/Appointments')
 
 export async function getIndex(req: Request, res: Response): Promise<void>{
   try{
-    console.log(req.cookies)
-    const token = req.cookies.myCookie
-    console.log(token)
-    const decoded: any = jwt.verify(token, secret)
-    console.log(decoded)
-    if(decoded.who === "patient"){
-      const patient = await Patients.findOne({ _id: decoded.id, 'tokens.token': token })
-      console.log(patient)
-      if (!patient) {
-        res.render('index2', {title : "Welcome."})
+    if(req.cookies.myCookie){
+      console.log(req.cookies)
+      const token = req.cookies.myCookie
+      console.log(token)
+      const decoded: any = jwt.verify(token, secret)
+      console.log(decoded)
+      if(decoded.who === "patient"){
+        const patient = await Patients.findOne({ _id: decoded.id, 'tokens.token': token })
+        console.log(patient)
+        if (!patient) {
+          res.render('index2', {title : "Welcome."})
+        }else{
+          res.redirect(`/patient-dashboard`)
+        }
       }else{
-        res.redirect(`/patient-dashboard`)
+        const hospital = await Hospitals.findOne({ _id: decoded.id, 'tokens.token': token })
+        console.log(hospital)
+        if (!hospital) {
+          res.render('index2', {title : "Welcome."})
+        }else{
+          res.redirect(`/hospital-dashboard`)
+        }
       }
     }else{
-      const hospital = await Hospitals.findOne({ _id: decoded.id, 'tokens.token': token })
-      console.log(hospital)
-      if (!hospital) {
-        res.render('index2', {title : "Welcome."})
-      }else{
-        res.redirect(`/hospital-dashboard`)
-      }
+      console.log(req.cookies)
+      res.render('index2', {title : "Welcome"})
     }
-    // res.render('index2', {title : "Welcome."})
   }catch(err){
     console.log(err)
   }
@@ -98,10 +102,29 @@ export async function postAppointment(req: any, res: Response): Promise<void>{
           }
         }
       }else{
-        res.send('Time unavailable')
+        res.send('Time unavailable.')
       }
   }catch(err){
     console.log(err)
+    res.send(err)
+  }
+}
+
+export async function getChat(req: any, res: Response): Promise<void> {
+  try{
+    // const patient = req.patient
+    // const hospital = req.hospital
+    let hospitalName
+    if(req.patient) {
+      hospitalName = req.patient.hospital
+    }else{
+      console.log(req.hospital)
+      hospitalName = req.hospital.name
+      console.log(hospitalName)
+    }
+    // const hospital = patient.hospital
+    res.render('chat', {hospitalName})
+  }catch(err){
     res.send(err)
   }
 }
