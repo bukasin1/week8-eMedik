@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
 
-const appointmentsSchema = new mongoose.Schema({
+const reportsSchema = new mongoose.Schema({
   patientId: String,
   patientName: String,
+  age: Number,
   hospitalName: String,
   weight: String,
   height: String,
@@ -13,4 +14,4 @@ const appointmentsSchema = new mongoose.Schema({
   hepatitis: String
 })
 
-module.exports = mongoose.model('Appointment', appointmentsSchema);
+module.exports = mongoose.model('medicalReport', reportsSchema);

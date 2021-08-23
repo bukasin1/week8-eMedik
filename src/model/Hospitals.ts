@@ -7,7 +7,6 @@ const hospitalSchema = new mongoose.Schema({
   password: String,
   address: String,
   mobile: String,
-  accountNumber: String,
   tokens : [{
     token: {
       type : String,
