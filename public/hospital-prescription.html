@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="appointment.css">
+    <title>Prescription</title>
+</head>
+<body>
+    <form method="POST" >
+        <div class="appointments">
+            <div class="input">
+                <label for="Title">Patient Id</label>
+                <input type="text" name="patientId" required>
+            </div>
+
+            <div class="input">
+                <label for="From">Drug</label>
+                <input type="text" name="drug" required>
+            </div>
+            <div class="input">
+                <label for="To">Dosage</label>
+                <input type="text" name="dosage" required>
+            </div>
+            <div class="input-submit">
+                <input type="submit" class="submit">
+            </div>
+
+        </div>
+  </form>
+    <script src="./appointment.js"></script>
+</body>
+</html>

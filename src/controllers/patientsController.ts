@@ -173,7 +173,7 @@ export async function getPatientDashboard(req: any, res: Response): Promise<void
     console.log(req.hospital)
     const patient = await Patients.findOne({_id : req.patient._id})
     const prescriptions = await Prescriptions.find({patientId : req.patient._id})
-    const appointments = await Appointments.find({patientId : req.patient._id})
+    const newApp = await Appointments.find({patientId : req.patient._id})
     const report = await MedicalReports.findOne({patientId : req.patient._id})
     const hospital = await Hospitals.findOne({name : patient.hospital})
     console.log(patient)
@@ -196,8 +196,42 @@ export async function getPatientDashboard(req: any, res: Response): Promise<void
     }
     const date = new Date
     const age = date.getFullYear() - year
+    const appointments = newApp.sort((a:any,b:any) => {
+      if(a.from > b.from) return 1
+    })
+    console.log(appointments)
     // res.send({patient, appointments})
     res.render('patient-dashboard', {title : "Patients", patient, appointments, prescriptions, report, age, hospital})
+  }catch(err){
+    res.send(err)
+  }
+}
+
+export async function deletePrescription (req: Request, res: Response): Promise<void> {
+  try{
+    // const prescriptions = await Prescriptions.findOne({_id : req.params.prescriptionId})
+    Prescriptions.findByIdAndDelete(req.params.prescriptionId, (err:any) => {
+      if(err){
+        res.send(err)
+      }else{
+        res.redirect('/patient-dashboard')
+      }
+    })
+  }catch(err){
+    res.send(err)
+  }
+}
+
+export async function deleteAppointment (req: Request, res: Response): Promise<void> {
+  try{
+    // const appointments = await Appointments.findOne({_id : req.params.appointmentId})
+    Appointments.findByIdAndDelete(req.params.appointmentId, (err:any) => {
+      if(err){
+        res.send(err)
+      }else{
+        res.redirect('/patient-dashboard')
+      }
+    })
   }catch(err){
     res.send(err)
   }

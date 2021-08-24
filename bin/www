@@ -62,15 +62,37 @@ io.on('connection', (socket) => {
     })
 
     socket.on('sendMessage', (message, callback) => {
-        const user = getUser(socket.id)
+      if(message.includes('@')){
+        const user = getUser(socket.id);
+        const users = getUsersInRoom(user.room)
+        const ref = message.split('@')[1]
+        const recipient = users.filter((user) => user.username === ref)[0];
+
         const filter = new Filter()
+        
 
         if (filter.isProfane(message)) {
             return callback('Profanity is not allowed!')
         }
 
+        console.log('u', users)
+        console.log(ref)
+
+        // io.clients[socket.id].emit('message', generateMessage(user.username, message))
+        io.to(recipient.id).emit('message', generateMessage(user.username, message))
+        io.to(user.id).emit('message', generateMessage(user.username, message))
+        // io.to(user.room).emit('message', generateMessage(user.username, message))
+        callback()
+      }else{
+        const user = getUser(socket.id);
+        const filter = new Filter()
+
+        if (filter.isProfane(message)) {
+            return callback('Profanity is not allowed!')
+        }
         io.to(user.room).emit('message', generateMessage(user.username, message))
         callback()
+      }
     })
 
     socket.on('sendLocation', (coords, callback) => {

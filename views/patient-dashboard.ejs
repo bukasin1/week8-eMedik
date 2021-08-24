@@ -112,6 +112,12 @@
                         <h4><%= prescription.drug %></h4>
                         <span><%= prescription.dosage %></span>
                     </div>
+                    <% let deleteAnswer = "/patient" + "/" + prescription._id + "/delete" %>
+                    <div class="float-right">
+                        <a href="<%= deleteAnswer %>" class="float-right orange-btn">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </div>
                   </div>
                 <% }) %>
               <% } else{ %>
@@ -201,7 +207,7 @@
             <div class="appointments">
               <% if (locals.appointments.length !== 0) { %>
 
-                <% for (let i = 0; i< 2; i++) { %>
+                <% for (let i = 0; i< appointments.length; i++) { %>
                   <% if (i % 2 === 0) { %>
                     <div class="appointment">
                       <div class="icons"><i class="fas fa-tooth"></i></div>
@@ -210,6 +216,12 @@
                           <h5><%= appointments[i].day %></h5>
                           <h5><%= appointments[i].from %> - <%= appointments[i].to %></h5>
                           <!-- <span>Dr Traversy</span> -->
+                      </div>
+                      <% let deleteAnswer = "/patient" + "/" + appointments[i]._id + "/delete" %>
+                      <div class="float-right">
+                          <a href="<%= deleteAnswer %>" class="float-right orange-btn">
+                              <i class="fa fa-trash"></i>
+                          </a>
                       </div>
                     </div>
                   <% } else { %>
@@ -221,6 +233,12 @@
                         <h5><%= appointments[i].from %> - <%= appointments[i].to %></h5>
                           <!-- <span>Dr Traversy</span> -->
                       </div>
+                      <% let deleteAnswer = "/patient" + "/" + appointments[i]._id + "/delete" %>
+                      <div class="float-right">
+                          <a href="<%= deleteAnswer %>" class="float-right orange-btn">
+                              <i class="fa fa-trash"></i>
+                          </a>
+                      </div>
                     </div>
                   <% } %>
                 <% } %>
@@ -230,13 +248,12 @@
                 </div>
               <% } %>
 
-              <div class="appointment1">
+              <!-- <div class="appointment1">
                 <div class="icons"><i class="fas fa-tooth"></i></div>
                 <div class="details2">
                   <h4>test</h4>
                   <h5>test</h5>
                   <h5>test</h5>
-                    <!-- <span>Dr Traversy</span> -->
                 </div>
               </div>
               <div class="appointment1">
@@ -245,9 +262,8 @@
                   <h4>test</h4>
                   <h5>test</h5>
                   <h5>test</h5>
-                    <!-- <span>Dr Traversy</span> -->
                 </div>
-              </div>
+              </div> -->
 
             </div>
 
