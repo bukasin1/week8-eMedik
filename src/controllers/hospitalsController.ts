@@ -22,6 +22,7 @@ const Patients = require('../model/Patients')
 const Hospitals = require('../model/Hospitals')
 const Appointments = require('../model/Appointments')
 const Reports = require('../model/medicalReports')
+const Prescriptions = require('../model/Prescriptions')
 
 
 export async function getHospitalSignUpForm(req: Request, res: Response): Promise<void>{
@@ -198,6 +199,30 @@ export async function getPatientReport (req: Request, res: Response): Promise<vo
   try{
     const report = await Reports.findOne({patientId : req.params.ID})
     res.render('medicalReport', {report})
+  }catch(err){
+    res.send(err)
+  }
+}
+
+export async function sendPrescription (req: Request, res: Response): Promise<void> {
+  try{
+    const patient = Patients.findOne({_id : req.body.patientId})
+    const {drug, dosage} = req.body
+    const newPres = new Prescriptions({
+      patientId : req.body.patientId,
+      patientName : patient.name,
+      hospitalName : patient.hospital,
+      drug,
+      dosage
+    })
+    const savePrescription = await newPres.save()
+    if(savePrescription){
+      res.redirect('/hospital-dashboard')
+    }else{
+      throw{
+        message : 'Unable to save. kindly go back and try again'
+      }
+    }
   }catch(err){
     res.send(err)
   }

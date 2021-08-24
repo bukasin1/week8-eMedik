@@ -22,6 +22,7 @@ const Patients = require('../model/Patients')
 const Hospitals = require('../model/Hospitals')
 const Appointments = require('../model/Appointments')
 const MedicalReports = require('../model/medicalReports')
+const Prescriptions = require('../model/Prescriptions')
 
 
 export async function getPatientSignUpForm(req: Request, res: Response): Promise<void>{
@@ -171,6 +172,7 @@ export async function getPatientDashboard(req: any, res: Response): Promise<void
     console.log(req.patient)
     console.log(req.hospital)
     const patient = await Patients.findOne({_id : req.patient._id})
+    const prescriptions = await Prescriptions.find({patientId : req.patient._id})
     const appointments = await Appointments.find({patientId : req.patient._id})
     const report = await MedicalReports.findOne({patientId : req.patient._id})
     const hospital = await Hospitals.findOne({name : patient.hospital})
@@ -195,7 +197,7 @@ export async function getPatientDashboard(req: any, res: Response): Promise<void
     const date = new Date
     const age = date.getFullYear() - year
     // res.send({patient, appointments})
-    res.render('patient-dashboard', {title : "Patients", patient, appointments, report, age, hospital})
+    res.render('patient-dashboard', {title : "Patients", patient, appointments, prescriptions, report, age, hospital})
   }catch(err){
     res.send(err)
   }

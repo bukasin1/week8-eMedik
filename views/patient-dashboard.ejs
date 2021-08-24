@@ -104,27 +104,42 @@
             </div>
 
             <div class="treatments">
-               <div class="treatment">
+              <% if(locals.prescriptions.length !== 0) { %>
+                <% prescriptions.map(prescription => { %>
+                  <div class="treatment">
                     <div class="icon"><i class="fas fa-capsules"></i></div>
                     <div class="details">
-                        <h4>Antibiotic</h4>
-                        <span>1 tablet after a meal</span>
+                        <h4><%= prescription.drug %></h4>
+                        <span><%= prescription.dosage %></span>
                     </div>
+                  </div>
+                <% }) %>
+              <% } else{ %>
+                <div class="text">
+                  <h3>No assigned prescriptions yet</h3>
                 </div>
-               <div class="treatment">
-                    <div class="icon"><i class="fas fa-tablets"></i></div>
-                    <div class="details">
-                        <h4>Paracetamol</h4>
-                        <span>2 tablets after a meal</span>
-                    </div>
-                </div>
-               <div class="treatment">
-                    <div class="icon"><i class="fas fa-prescription-bottle"></i></i></div>
-                    <div class="details">
-                        <h4>Folic acid</h4>
-                        <span>1 tablet after a meal</span>
-                    </div>
-                </div>
+              <% } %>
+              <!--<div class="treatment">
+                  <div class="icon"><i class="fas fa-capsules"></i></div>
+                  <div class="details">
+                      <h4>Antibiotic</h4>
+                      <span>1 tablet after a meal</span>
+                  </div>
+              </div>
+              <div class="treatment">
+                  <div class="icon"><i class="fas fa-tablets"></i></div>
+                  <div class="details">
+                      <h4>Paracetamol</h4>
+                      <span>2 tablets after a meal</span>
+                  </div>
+              </div>
+              <div class="treatment">
+                  <div class="icon"><i class="fas fa-prescription-bottle"></i></i></div>
+                  <div class="details">
+                      <h4>Folic acid</h4>
+                      <span>1 tablet after a meal</span>
+                  </div>
+              </div> -->
             </div>
 
 
@@ -209,43 +224,30 @@
                     </div>
                   <% } %>
                 <% } %>
-
-                <div class="appointment">
-                  <div class="icons"><i class="fas fa-tooth"></i></div>
-                  <div class="details2">
-                      <h4>Test</h4>
-                      <h5>Test</h5>
-                      <h5>Test</h5>
-                      <!-- <span>Dr Traversy</span> -->
-                  </div>
-                </div>
-
-                <div class="appointment">
-                  <div class="icons"><i class="fas fa-tooth"></i></div>
-                  <div class="details2">
-                      <h4>Test</h4>
-                      <h5>Test</h5>
-                      <h5>Test</h5>
-                      <!-- <span>Dr Traversy</span> -->
-                  </div>
-                </div>
-
-                <div class="appointment">
-                  <div class="icons"><i class="fas fa-tooth"></i></div>
-                  <div class="details2">
-                      <h4>Test</h4>
-                      <h5>Test</h5>
-                      <h5>Test</h5>
-                      <!-- <span>Dr Traversy</span> -->
-                  </div>
-                </div>
-
               <% }else{ %>
                 <div class="appointment">
                   <h4>No appointments scheduled yet</h4>
                 </div>
               <% } %>
 
+              <div class="appointment1">
+                <div class="icons"><i class="fas fa-tooth"></i></div>
+                <div class="details2">
+                  <h4>test</h4>
+                  <h5>test</h5>
+                  <h5>test</h5>
+                    <!-- <span>Dr Traversy</span> -->
+                </div>
+              </div>
+              <div class="appointment1">
+                <div class="icons"><i class="fas fa-tooth"></i></div>
+                <div class="details2">
+                  <h4>test</h4>
+                  <h5>test</h5>
+                  <h5>test</h5>
+                    <!-- <span>Dr Traversy</span> -->
+                </div>
+              </div>
 
             </div>
 
