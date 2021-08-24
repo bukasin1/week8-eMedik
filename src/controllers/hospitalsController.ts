@@ -36,7 +36,27 @@ export async function getHospitalSignUpForm(req: Request, res: Response): Promis
 
 export async function getHospitalSignup(req: Request, res: Response): Promise<void>{
   try{
-    res.render('hospital-signup', {title : "Hospital Sign Up Page"})
+    if(req.cookies.myCookie){
+      const token = req.cookies.myCookie
+      const decoded: any = jwt.verify(token, secret)
+      if(decoded.who === "patient"){
+        const patient = await Patients.findOne({ _id: decoded.id, 'tokens.token': token })
+        if (!patient) {
+          res.render('hospital-signup', {title : "Hospital Sign Up Page"})
+        }else{
+          res.redirect(`/patient-dashboard`)
+        }
+      }else{
+        const hospital = await Hospitals.findOne({ _id: decoded.id, 'tokens.token': token })
+        if (!hospital) {
+          res.render('hospital-signup', {title : "Hospital Sign Up Page"})
+        }else{
+          res.redirect(`/hospital-dashboard`)
+        }
+      }
+    }else{
+      res.render('hospital-signup', {title : "Hospital Sign Up Page"})
+    }
   }catch(err){
     res.send(err)
   }
@@ -48,6 +68,8 @@ export async function postHospitalSignUp(req: Request, res: Response): Promise<v
     if(hospital){
       res.render('hospital-signup', {title : "Hospital Sign Up Page", error : "Hospital with entered email already exists"})
       // res.send("Email already exists")
+    }else if(req.body.password !== req.body.cPassword){
+      res.render('hospital-signup', {title : "Hospital Sign Up Page", error : "Passwords do not match"})
     }else{
       if(!validator.validate(req.body.email)){
         // res.send("Incorrectly formed email")
@@ -148,33 +170,37 @@ export async function postMedicalReport(req: any, res: Response): Promise<void>{
   try{
     const patientId = req.body.patientId
     const patient = await Patients.findOne({_id : patientId})
-    const year = patient.dateOfBirth.split('/')[2]
-    const date = new Date
-    const age = date.getFullYear() - year
-    if(patient.hospital !== req.hospital.name) {
-      res.send('Patient not registered to hospital')
+    if(!patient){
+      res.send('Wrond Id, please go back and check again.')
     }else{
-      const {weight, height, bloodGroup, genotype, bloodPressure, HIV_status, hepatitis} = req.body
-      const newReport = new Reports({
-        patientId,
-        patientName : patient.name,
-        age,
-        hospitalName : req.hospital.name,
-        weight,
-        height,
-        bloodGroup,
-        genotype,
-        bloodPressure,
-        HIV_status,
-        hepatitis
-      })
-      const saveReport = await newReport.save()
-      if(saveReport){
-        // res.send("Saved!")
-        res.redirect('/hospital-dashboard')
+      const year = patient.dateOfBirth.split('/')[2]
+      const date = new Date
+      const age = date.getFullYear() - year
+      if(patient.hospital !== req.hospital.name) {
+        res.send('Patient not registered to hospital')
       }else{
-        throw{
-          message : 'Unable to save. kindly go back and try again'
+        const {weight, height, bloodGroup, genotype, bloodPressure, HIV_status, hepatitis} = req.body
+        const newReport = new Reports({
+          patientId,
+          patientName : patient.name,
+          age,
+          hospitalName : req.hospital.name,
+          weight,
+          height,
+          bloodGroup,
+          genotype,
+          bloodPressure,
+          HIV_status,
+          hepatitis
+        })
+        const saveReport = await newReport.save()
+        if(saveReport){
+          // res.send("Saved!")
+          res.redirect('/hospital-dashboard')
+        }else{
+          throw{
+            message : 'Unable to save. kindly go back and try again'
+          }
         }
       }
     }

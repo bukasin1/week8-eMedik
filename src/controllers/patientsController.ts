@@ -29,14 +29,10 @@ export async function getPatientSignUpForm(req: Request, res: Response): Promise
   try{
 
     if(req.cookies.myCookie){
-      console.log(req.cookies)
       const token = req.cookies.myCookie
-      console.log(token)
       const decoded: any = jwt.verify(token, secret)
-      console.log(decoded)
       if(decoded.who === "patient"){
         const patient = await Patients.findOne({ _id: decoded.id, 'tokens.token': token })
-        console.log(patient)
         if (!patient) {
           const hospitals = await Hospitals.find()
           res.render('patient-signup', {title: "Patient Sign Up Page", hospitals})
@@ -45,7 +41,6 @@ export async function getPatientSignUpForm(req: Request, res: Response): Promise
         }
       }else{
         const hospital = await Hospitals.findOne({ _id: decoded.id, 'tokens.token': token })
-        console.log(hospital)
         if (!hospital) {
           const hospitals = await Hospitals.find()
           res.render('patient-signup', {title: "Patient Sign Up Page", hospitals})
@@ -73,6 +68,8 @@ export async function postPatientSignUp(req: Request, res: Response): Promise<vo
     if(patient){
       // res.send("Email already exists")
       res.render('patient-signup', {title : "Patient Sign Up Page", error : "Patient with entered email already exists", hospitals})
+    }else if(req.body.password !== req.body.cPassword){
+      res.render('patient-signup', {title : "Patient Sign Up Page", error : "Passwords do not match", hospitals})
     }else{
       if(!validator.validate(req.body.email)){
         // res.send("Incorrectly formed email")
