@@ -137,12 +137,11 @@ async function postHospitalSignIn(req, res) {
             res.redirect(`/hospital-dashboard`);
         }
         else {
-            res.send('invalid email');
+            res.redirect('/hospital-login-page.html');
         }
     }
     catch (err) {
-        console.log('err');
-        res.send('invalid email');
+        res.redirect('/hospital-login-page.html');
     }
 }
 exports.postHospitalSignIn = postHospitalSignIn;
@@ -176,13 +175,20 @@ async function getHospitalDashboard(req, res) {
 exports.getHospitalDashboard = getHospitalDashboard;
 async function postMedicalReport(req, res) {
     try {
-        const patientId = req.body.patientId;
-        const patient = await Patients.findOne({ _id: patientId });
+        const patientId = req.body.patientRef;
+        const patient = await Patients.findOne({ refId: patientId });
         if (!patient) {
             res.send('Wrond Id, please go back and check again.');
         }
         else {
-            const year = patient.dateOfBirth.split('/')[2];
+            const reg = /[0-9]+\/[a-z]+\/[0-9]+/;
+            let year;
+            if (patient.dateOfBirth.match(reg)) {
+                year = patient.dateOfBirth.split('/')[2];
+            }
+            else {
+                year = patient.dateOfBirth.split('-')[0];
+            }
             const date = new Date;
             const age = date.getFullYear() - year;
             if (patient.hospital !== req.hospital.name) {
@@ -210,7 +216,7 @@ async function postMedicalReport(req, res) {
                 }
                 else {
                     throw {
-                        message: 'Unable to save. kindly go back and try again'
+                        message: 'Unable to save. kindly go back and try again.'
                     };
                 }
             }
@@ -223,11 +229,22 @@ async function postMedicalReport(req, res) {
 exports.postMedicalReport = postMedicalReport;
 async function postToGetPatientReport(req, res) {
     try {
-        const patientId = req.body.patientId;
+        const refId = req.body.patientRef;
+        const patient = await Patients.findOne({ refId: refId });
         // const report = await Reports.findOne({patientId : patientId})
-        const url = '/hospital/report/' + patientId;
-        res.redirect(url);
-        // res.render('medicalReport', {report})
+        if (!patient) {
+            res.send('Wrond Id, please go back and check again.');
+        }
+        else {
+            if (patient.hospital !== req.hospital.name) {
+                res.send('Patient not registered to hospital');
+            }
+            else {
+                const url = '/hospital/report/' + patient._id;
+                res.redirect(url);
+                // res.render('medicalReport', {report})
+            }
+        }
     }
     catch (err) {
         res.send(err);
@@ -236,8 +253,14 @@ async function postToGetPatientReport(req, res) {
 exports.postToGetPatientReport = postToGetPatientReport;
 async function getPatientReport(req, res) {
     try {
-        const report = await Reports.findOne({ patientId: req.params.ID });
-        res.render('medicalReport', { report });
+        const patient = await Patients.findOne({ _id: req.params.ID });
+        if (patient.hospital !== req.hospital.name) {
+            res.send('Patient not in hospital');
+        }
+        else {
+            const report = await Reports.findOne({ patientId: patient.refId });
+            res.render('medicalReport', { report });
+        }
     }
     catch (err) {
         res.send(err);
@@ -246,23 +269,33 @@ async function getPatientReport(req, res) {
 exports.getPatientReport = getPatientReport;
 async function sendPrescription(req, res) {
     try {
-        const patient = Patients.findOne({ _id: req.body.patientId });
-        const { drug, dosage } = req.body;
-        const newPres = new Prescriptions({
-            patientId: req.body.patientId,
-            patientName: patient.name,
-            hospitalName: patient.hospital,
-            drug,
-            dosage
-        });
-        const savePrescription = await newPres.save();
-        if (savePrescription) {
-            res.redirect('/hospital-dashboard');
+        const patient = await Patients.findOne({ refId: req.body.patientRef });
+        if (!patient) {
+            res.send('Wrond Id, please go back and check again.');
         }
         else {
-            throw {
-                message: 'Unable to save. kindly go back and try again'
-            };
+            if (patient.hospital !== req.hospital.name) {
+                res.send('Patient not registered to hospital');
+            }
+            else {
+                const { drug, dosage } = req.body;
+                const newPres = new Prescriptions({
+                    patientId: req.body.patientRef,
+                    patientName: patient.name,
+                    hospitalName: patient.hospital,
+                    drug,
+                    dosage
+                });
+                const savePrescription = await newPres.save();
+                if (savePrescription) {
+                    res.redirect('/hospital-dashboard');
+                }
+                else {
+                    throw {
+                        message: 'Unable to save. kindly go back and try again'
+                    };
+                }
+            }
         }
     }
     catch (err) {

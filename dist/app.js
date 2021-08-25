@@ -47,7 +47,7 @@ mongoose_1.default
     useUnifiedTopology: true,
 })
     .then(() => {
-    console.log('Database connected');
+    console.log('Database connected.');
 });
 // view engine setup
 app.set('views', path_1.default.join(__dirname, '..', 'views'));

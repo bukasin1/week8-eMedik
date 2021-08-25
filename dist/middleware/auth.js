@@ -11,12 +11,8 @@ const Hospitals = require('../model/Hospitals');
 const secret = process.env.JWT_SECRET;
 async function auth(req, res, next) {
     try {
-        console.log(req.cookies);
-        console.log(req.url.includes('patient'));
         const token = req.cookies.myCookie;
-        console.log(token);
         const decoded = jsonwebtoken_1.default.verify(token, secret);
-        console.log(decoded);
         if (req.url.includes('patient') && decoded.who === "hospital") {
             throw new Error('Thrown here');
         }
@@ -25,7 +21,6 @@ async function auth(req, res, next) {
         }
         if (decoded.who === "patient") {
             const patient = await Patients.findOne({ _id: decoded.id, 'tokens.token': token });
-            console.log(patient);
             if (!patient) {
                 throw new Error('Thrown here');
             }
@@ -34,7 +29,6 @@ async function auth(req, res, next) {
         }
         else {
             const hospital = await Hospitals.findOne({ _id: decoded.id, 'tokens.token': token });
-            console.log(hospital);
             if (!hospital) {
                 throw new Error('Thrown here');
             }

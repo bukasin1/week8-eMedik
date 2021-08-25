@@ -48,7 +48,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log('Database connected')
+    console.log('Database connected.')
   })
 
 // view engine setup

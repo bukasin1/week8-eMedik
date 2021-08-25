@@ -65,11 +65,11 @@ io.on('connection', (socket) => {
       if(message.includes('@')){
         const user = getUser(socket.id);
         const users = getUsersInRoom(user.room)
-        const ref = message.split('@')[1]
+        const ref = message.split('@')[1].toLowerCase()
         const recipient = users.filter((user) => user.username === ref)[0];
 
         const filter = new Filter()
-        
+
 
         if (filter.isProfane(message)) {
             return callback('Profanity is not allowed!')

@@ -10,12 +10,8 @@ const secret: string = process.env.JWT_SECRET as string;
 
 export async function auth (req:any, res: Response, next: NextFunction): Promise<void>{
     try {
-        console.log(req.cookies)
-        console.log(req.url.includes('patient'))
         const token = req.cookies.myCookie
-        console.log(token)
         const decoded: any = jwt.verify(token, secret)
-        console.log(decoded)
         if(req.url.includes('patient') && decoded.who === "hospital"){
           throw new Error('Thrown here')
         }
@@ -24,7 +20,6 @@ export async function auth (req:any, res: Response, next: NextFunction): Promise
         }
         if(decoded.who === "patient"){
           const patient = await Patients.findOne({ _id: decoded.id, 'tokens.token': token })
-          console.log(patient)
           if (!patient) {
               throw new Error('Thrown here')
           }
@@ -33,7 +28,6 @@ export async function auth (req:any, res: Response, next: NextFunction): Promise
           req.patient = patient
         }else{
           const hospital = await Hospitals.findOne({ _id: decoded.id, 'tokens.token': token })
-          console.log(hospital)
           if (!hospital) {
               throw new Error('Thrown here')
           }

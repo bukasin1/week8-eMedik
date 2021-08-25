@@ -29,8 +29,8 @@ router.get('/hospital/logout', auth_1.auth, hospitalsController_1.getHospitalLog
 router.post('/appointment.html', auth_1.auth, indexControllers_1.postAppointment);
 router.post('/hospital-postReport.html', auth_1.auth, hospitalsController_1.postMedicalReport);
 router.post('/hospital-prescription.html', auth_1.auth, hospitalsController_1.sendPrescription);
-router.get('/patient/:appointmentId/delete', auth_1.auth, patientsController_1.deleteAppointment);
-router.get('/patient/:prescriptionId/delete', auth_1.auth, patientsController_1.deletePrescription);
+router.get('/patient/appointment/:appointmentId/delete', auth_1.auth, patientsController_1.deleteAppointment);
+router.get('/patient/prescription/:prescriptionId/delete', auth_1.auth, patientsController_1.deletePrescription);
 router.get('/chat', auth_1.auth, indexControllers_1.getChat);
 // router.get('/balance', getAccounts);
 module.exports = router;

@@ -25,14 +25,10 @@ const Appointments = require('../model/Appointments');
 async function getIndex(req, res) {
     try {
         if (req.cookies.myCookie) {
-            console.log(req.cookies);
             const token = req.cookies.myCookie;
-            console.log(token);
             const decoded = jsonwebtoken_1.default.verify(token, secret);
-            console.log(decoded);
             if (decoded.who === "patient") {
                 const patient = await Patients.findOne({ _id: decoded.id, 'tokens.token': token });
-                console.log(patient);
                 if (!patient) {
                     res.render('index2', { title: "Welcome." });
                 }
@@ -42,7 +38,6 @@ async function getIndex(req, res) {
             }
             else {
                 const hospital = await Hospitals.findOne({ _id: decoded.id, 'tokens.token': token });
-                console.log(hospital);
                 if (!hospital) {
                     res.render('index2', { title: "Welcome." });
                 }
@@ -52,7 +47,6 @@ async function getIndex(req, res) {
             }
         }
         else {
-            console.log(req.cookies);
             res.render('index2', { title: "Welcome" });
         }
     }

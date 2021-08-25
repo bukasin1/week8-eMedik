@@ -129,11 +129,10 @@ export async function postHospitalSignIn(req: any, res: Response): Promise<void>
       res.cookie("myCookie", token)
       res.redirect(`/hospital-dashboard`)
     }else{
-      res.send('invalid email')
+      res.redirect('/hospital-login-page.html')
     }
   }catch(err){
-    console.log('err')
-    res.send('invalid email')
+    res.redirect('/hospital-login-page.html')
   }
 }
 
@@ -168,12 +167,18 @@ export async function getHospitalDashboard(req: any, res: Response): Promise<voi
 
 export async function postMedicalReport(req: any, res: Response): Promise<void>{
   try{
-    const patientId = req.body.patientId
-    const patient = await Patients.findOne({_id : patientId})
+    const patientId = req.body.patientRef
+    const patient = await Patients.findOne({refId : patientId})
     if(!patient){
       res.send('Wrond Id, please go back and check again.')
     }else{
-      const year = patient.dateOfBirth.split('/')[2]
+      const reg = /[0-9]+\/[a-z]+\/[0-9]+/
+      let year
+      if(patient.dateOfBirth.match(reg)){
+        year = patient.dateOfBirth.split('/')[2]
+      }else{
+        year = patient.dateOfBirth.split('-')[0]
+      }
       const date = new Date
       const age = date.getFullYear() - year
       if(patient.hospital !== req.hospital.name) {
@@ -199,7 +204,7 @@ export async function postMedicalReport(req: any, res: Response): Promise<void>{
           res.redirect('/hospital-dashboard')
         }else{
           throw{
-            message : 'Unable to save. kindly go back and try again'
+            message : 'Unable to save. kindly go back and try again.'
           }
         }
       }
@@ -211,42 +216,64 @@ export async function postMedicalReport(req: any, res: Response): Promise<void>{
 
 export async function postToGetPatientReport (req:any, res: Response): Promise<void> {
   try{
-    const patientId = req.body.patientId
+    const refId = req.body.patientRef
+    const patient = await Patients.findOne({refId : refId})
     // const report = await Reports.findOne({patientId : patientId})
-    const url = '/hospital/report/' + patientId
-    res.redirect(url)
-    // res.render('medicalReport', {report})
-  }catch(err){
-    res.send(err)
-  }
-}
-
-export async function getPatientReport (req: Request, res: Response): Promise<void> {
-  try{
-    const report = await Reports.findOne({patientId : req.params.ID})
-    res.render('medicalReport', {report})
-  }catch(err){
-    res.send(err)
-  }
-}
-
-export async function sendPrescription (req: Request, res: Response): Promise<void> {
-  try{
-    const patient = Patients.findOne({_id : req.body.patientId})
-    const {drug, dosage} = req.body
-    const newPres = new Prescriptions({
-      patientId : req.body.patientId,
-      patientName : patient.name,
-      hospitalName : patient.hospital,
-      drug,
-      dosage
-    })
-    const savePrescription = await newPres.save()
-    if(savePrescription){
-      res.redirect('/hospital-dashboard')
+    if(!patient){
+      res.send('Wrond Id, please go back and check again.')
     }else{
-      throw{
-        message : 'Unable to save. kindly go back and try again'
+      if(patient.hospital !== req.hospital.name) {
+        res.send('Patient not registered to hospital')
+      }else{
+        const url = '/hospital/report/' + patient._id
+        res.redirect(url)
+        // res.render('medicalReport', {report})
+      }
+    }
+  }catch(err){
+    res.send(err)
+  }
+}
+
+export async function getPatientReport (req: any, res: Response): Promise<void> {
+  try{
+    const patient = await Patients.findOne({_id : req.params.ID})
+    if(patient.hospital !== req.hospital.name){
+      res.send('Patient not in hospital')
+    }else{
+      const report = await Reports.findOne({patientId : patient.refId})
+      res.render('medicalReport', {report})
+    }
+  }catch(err){
+    res.send(err)
+  }
+}
+
+export async function sendPrescription (req: any, res: Response): Promise<void> {
+  try{
+    const patient = await Patients.findOne({refId : req.body.patientRef})
+    if(!patient){
+      res.send('Wrond Id, please go back and check again.')
+    }else{
+      if(patient.hospital !== req.hospital.name) {
+        res.send('Patient not registered to hospital')
+      }else{
+        const {drug, dosage} = req.body
+        const newPres = new Prescriptions({
+          patientId : req.body.patientRef,
+          patientName : patient.name,
+          hospitalName : patient.hospital,
+          drug,
+          dosage
+        })
+        const savePrescription = await newPres.save()
+        if(savePrescription){
+          res.redirect('/hospital-dashboard')
+        }else{
+          throw{
+            message : 'Unable to save. kindly go back and try again'
+          }
+        }
       }
     }
   }catch(err){
