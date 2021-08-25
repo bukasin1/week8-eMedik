@@ -29,14 +29,10 @@ const Appointments = require('../model/Appointments')
 export async function getIndex(req: Request, res: Response): Promise<void>{
   try{
     if(req.cookies.myCookie){
-      console.log(req.cookies)
       const token = req.cookies.myCookie
-      console.log(token)
       const decoded: any = jwt.verify(token, secret)
-      console.log(decoded)
       if(decoded.who === "patient"){
         const patient = await Patients.findOne({ _id: decoded.id, 'tokens.token': token })
-        console.log(patient)
         if (!patient) {
           res.render('index2', {title : "Welcome."})
         }else{
@@ -44,7 +40,6 @@ export async function getIndex(req: Request, res: Response): Promise<void>{
         }
       }else{
         const hospital = await Hospitals.findOne({ _id: decoded.id, 'tokens.token': token })
-        console.log(hospital)
         if (!hospital) {
           res.render('index2', {title : "Welcome."})
         }else{
@@ -52,7 +47,6 @@ export async function getIndex(req: Request, res: Response): Promise<void>{
         }
       }
     }else{
-      console.log(req.cookies)
       res.render('index2', {title : "Welcome"})
     }
   }catch(err){

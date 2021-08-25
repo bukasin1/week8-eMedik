@@ -121,7 +121,7 @@ async function postPatientSignUp(req, res) {
                     // const id = savePatient._id
                     if (savePatient) {
                         // res.send(`Saved!, ${id}`)
-                        res.redirect('/');
+                        res.redirect('/patient-login-page.html');
                     }
                     else {
                         throw {
@@ -183,14 +183,11 @@ exports.postPatientSignIn = postPatientSignIn;
 async function getPatientDashboard(req, res) {
     try {
         // const patients = await Patients.find()
-        console.log(req.patient);
-        console.log(req.hospital);
         const patient = await Patients.findOne({ _id: req.patient._id });
-        const prescriptions = await Prescriptions.find({ patientId: req.patient._id });
+        const prescriptions = await Prescriptions.find({ patientId: req.patient.refId });
         const newApp = await Appointments.find({ patientId: req.patient._id });
-        const report = await MedicalReports.findOne({ patientId: req.patient._id });
+        const report = await MedicalReports.findOne({ patientId: req.patient.refId });
         const hospital = await Hospitals.findOne({ name: patient.hospital });
-        console.log(patient);
         // const patient = req.patient
         patient.toJSON = function () {
             const user = this;
@@ -213,7 +210,6 @@ async function getPatientDashboard(req, res) {
             if (a.from > b.from)
                 return 1;
         });
-        console.log(appointments);
         // res.send({patient, appointments})
         res.render('patient-dashboard', { title: "Patients", patient, appointments, prescriptions, report, age, hospital });
     }
@@ -225,11 +221,13 @@ exports.getPatientDashboard = getPatientDashboard;
 async function deletePrescription(req, res) {
     try {
         // const prescriptions = await Prescriptions.findOne({_id : req.params.prescriptionId})
+        console.log('entered');
         Prescriptions.findByIdAndDelete(req.params.prescriptionId, (err) => {
             if (err) {
                 res.send(err);
             }
             else {
+                console.log('deleted');
                 res.redirect('/patient-dashboard');
             }
         });

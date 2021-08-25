@@ -26,8 +26,8 @@ router.get('/hospital/logout',auth, getHospitalLogout)
 router.post('/appointment.html',auth, postAppointment)
 router.post('/hospital-postReport.html', auth, postMedicalReport)
 router.post('/hospital-prescription.html' , auth, sendPrescription)
-router.get('/patient/:appointmentId/delete', auth, deleteAppointment)
-router.get('/patient/:prescriptionId/delete', auth, deletePrescription)
+router.get('/patient/appointment/:appointmentId/delete', auth, deleteAppointment)
+router.get('/patient/prescription/:prescriptionId/delete', auth, deletePrescription)
 router.get('/chat', auth, getChat)
 // router.get('/balance', getAccounts);
 

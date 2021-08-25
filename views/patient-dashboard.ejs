@@ -19,14 +19,14 @@
                     <i class="fas fa-th-large"></i>
                     <span>Dashboard</span>
                 </div>
-                
+
                 <div class="general-icon">
                   <a href="/patient/logout">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>log out</span>
                   </a>
                 </div>
-                
+
 
 
             </div>
@@ -115,7 +115,7 @@
                         <h4><%= prescription.drug %></h4>
                         <span><%= prescription.dosage %></span>
                     </div>
-                    <% let deleteAnswer = "/patient" + "/" + prescription._id + "/delete" %>
+                    <% let deleteAnswer = "/patient/prescription" + "/" + prescription._id + "/delete" %>
                     <div class="float-right">
                         <a href="<%= deleteAnswer %>" class="float-right orange-btn">
                             <i class="fa fa-trash"></i>
@@ -220,7 +220,7 @@
                           <h5><%= appointments[i].from %> - <%= appointments[i].to %></h5>
                           <!-- <span>Dr Traversy</span> -->
                       </div>
-                      <% let deleteAnswer = "/patient" + "/" + appointments[i]._id + "/delete" %>
+                      <% let deleteAnswer = "/patient/appointment" + "/" + appointments[i]._id + "/delete" %>
                       <div class="float-right">
                           <a href="<%= deleteAnswer %>" class="float-right orange-btn">
                               <i class="fa fa-trash"></i>
@@ -236,7 +236,7 @@
                         <h5><%= appointments[i].from %> - <%= appointments[i].to %></h5>
                           <!-- <span>Dr Traversy</span> -->
                       </div>
-                      <% let deleteAnswer = "/patient" + "/" + appointments[i]._id + "/delete" %>
+                      <% let deleteAnswer = "/patient/appointment" + "/" + appointments[i]._id + "/delete" %>
                       <div class="float-right">
                           <a href="<%= deleteAnswer %>" class="float-right orange-btn">
                               <i class="fa fa-trash"></i>
