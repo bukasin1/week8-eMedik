@@ -9,6 +9,7 @@ const patientProfileSchema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
+  refId: String,
   dateOfBirth: {
     type: String,
     required: [true, 'A patient must have an age']

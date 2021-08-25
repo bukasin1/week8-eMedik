@@ -61,6 +61,19 @@ export async function getPatientSignUpForm(req: Request, res: Response): Promise
   }
 }
 
+function createPatientId(hospital){
+  let id = ''
+  id = hospital.toUpperCase().replace(/-/g, ' ').split(' ').reduce((acc, word) => {
+    return acc += word[0]
+  }, '')
+  let count = 0
+  while(count < 4){
+    id += Math.floor(Math.random() * 10)
+    count++
+  }
+  return id
+}
+
 export async function postPatientSignUp(req: Request, res: Response): Promise<void>{
   try{
     const patient = await Patients.findOne({email : req.body.email})
@@ -91,9 +104,11 @@ export async function postPatientSignUp(req: Request, res: Response): Promise<vo
           res.render('patient-signup', {title : "Patient Sign Up Page", error : "Invalid email", hospitals})
         }else{
           const {name, dateOfBirth, email, password, hospital, mobile, gender}  = req.body
+          const refId = createPatientId(hospital)
           const userPass = await bcrypt.hash(password , 10)
           const patient = new Patients({
             name,
+            refId,
             dateOfBirth,
             email,
             password: userPass,
