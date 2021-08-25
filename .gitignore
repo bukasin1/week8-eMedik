@@ -61,7 +61,7 @@ typings/
 .next
 
 # TypeScript compiled files
-dist
+# dist
 
 # unused readme file
 README3.md
