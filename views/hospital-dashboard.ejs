@@ -5,8 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-    <link rel="stylesheet" href="admin.css">
     <title>Admin dashboard</title>
+    <link rel="icon" type="images/png" href="image/logo_2.svg">
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
     <div class="main-container">
@@ -14,12 +15,6 @@
           <div class="content">
                 <div class="dashboard">
                   <h1>Dashboard</h1>
-                  <a href="/hospital/logout" class="general-icon">
-                    <div>
-                      <i class="fas fa-sign-out-alt"></i>
-                      <span>log out</span>
-                    </div>
-                  </a>
                 </div>
                 <div class="date">
                     <i class="fas fa-calendar-day"></i>
@@ -56,7 +51,7 @@
                           <% }) %>
 
                         <% } else { %>
-                          <h4>No appointments scheduled yet</h4>
+                          <h4>No appointments booked yet</h4>
                         <% } %>
                         <!-- <h4>notif1</h4>
                         <h4>notif2</h4>
@@ -64,17 +59,32 @@
                     </div>
                 </div>
                 <div class="medical-report">
-                    <i class="fas fa-plus"></i>
-                    <a href="/hospital-postReport.html">Create medical reports</a>
-                      <i class="fas fa-plus"></i>
-                      <a href="/hospital-prescription.html">Send Prescription</a>
 
-                      <a href="/hospital/logout" class="general-icon">
-                        <div>
-                          <i class="fas fa-sign-out-alt"></i>
-                          <span>log out</span>
-                        </div>
-                      </a>
+                    <a href="/hospital-postReport.html" class="general-ico">
+                      <div>
+                        <i class="fas fa-plus"></i>
+                        <span>Create medical reports</span>
+                      </div>
+                    </a>
+                    <!-- <i class="fas fa-plus"></i>
+                    <a href="/hospital-postReport.html">Create medical reports</a> -->
+
+                    <a href="/hospital-prescription.html" class="general-ico right">
+                      <div>
+                        <i class="fas fa-plus"></i>
+                        <span>Send Prescription</span>
+                      </div>
+                    </a>
+
+                    <!-- <i class="fas fa-plus"></i>
+                    <a href="/hospital-prescription.html">Send Prescription</a> -->
+
+                    <a href="/hospital/logout" class="general-ico right">
+                      <div>
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>log out</span>
+                      </div>
+                    </a>
                 </div>
             </div>
        </div>

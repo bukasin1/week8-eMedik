@@ -31,6 +31,15 @@ body{
   margin-top: 20px;
   float: right;
 }
+.general-ico{
+    /* margin-left: 300px; */
+    margin: 10px;
+    float: right;
+}
+.right{
+
+    margin-left: auto;
+}
 .date{
     margin-left: 100px;
     margin-top: 60px;
