@@ -61,7 +61,7 @@ export async function getPatientSignUpForm(req: Request, res: Response): Promise
   }
 }
 
-function createPatientId(hospital){
+function createPatientId(hospital: string){
   let id = ''
   id = hospital.toUpperCase().replace(/-/g, ' ').split(' ').reduce((acc, word) => {
     return acc += word[0]
