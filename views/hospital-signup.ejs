@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta  name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><%= title %></title>
+        <link rel="icon" type="images/png" href="image/logo_2.svg">
+        <link rel="stylesheet" href="./stylesheets/hospital-signup.css">
+    </head>
+    <body>
+        <div class="all">
+            <div class="main">
+                <p class="sign" align="center">Hospital Sign up</p>
+                <%if (locals.error) { %>
+                  <p class="text-center err"><%= error %></p>
+                <% } %>
+                <form method="POST" class="form1">
+                    <input class="un " type="text" placeholder="Hospital Name" required name="name">
+                    <input class="un" type="text"  placeholder="RegNo" required name="regNo">
+                    <input class="un" type="text"  placeholder="Email" required name="email">
+                    <input class="un" type="text"  placeholder="Address" required name="address">
+                    <input class="pass" type="password" placeholder="Password" required name="password">
+                    <input class="pass" type="password" placeholder="Confirm Password" required name="cPassword">
+                    <input class="un" type="text" placeholder="Mobile" required name="mobile">
+                    <input type = "submit" class="submit" value="Sign-up">
+            </div>
+        </div>
+    </body>
+</html>

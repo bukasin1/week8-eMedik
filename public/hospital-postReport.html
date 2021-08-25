@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical report</title>
+    <link rel="icon" type="images/png" href="image/logo_2.svg">
+    <link rel="stylesheet" href="report.css">
+</head>
+<body>
+    <form method="POST" >
+        <div class="report">
+            <div class="input">
+                <label for="Fullname">PatientId</label>
+                <input type="text" name="patientId" required>
+            </div>
+            <!-- <div class="input">
+                <label for="Age">Age</label>
+                <input type="text" id="date"  name="age">
+            </div> -->
+            <div class="input">
+                <label for="Weight">Weight</label>
+                <input type="text" id="time" name="weight" required>
+            </div>
+            <div class="input">
+                <label for="Height">Height</label>
+                <input type="text" name="height" required>
+            </div>
+            <div class="input">
+                <label for="Bloodgroup">Blood group</label>
+                <input type="text" name="bloodGroup" required>
+            </div>
+            <div class="input">
+                <label for="Genotype">Genotype</label>
+                <input type="text" name="genotype" required>
+            </div>
+            <div class="input">
+                <label for="bloodpressure">Blood pressure</label>
+                <input type="text" name="bloodPressure" required>
+            </div>
+            <div class="input">
+                <label for="HIVstatus">HIV Status</label>
+                <!-- <div class="checkbox">
+                    <input   type="checkbox" name="positive"><span>positive</span>
+                    <input  type="checkbox" name="negative"><span>negative</span>
+                </div> -->
+
+                <select id="choice" class="un" required name="HIV_status">
+                  <option value="0" selected="selected">Status..</option>
+                  <option>positive</option>
+                  <option>negative</option>
+                </select>
+
+            </div>
+            <div class="input">
+                <label for="Hepatitis">Hepatitis B</label>
+
+                <select id="choice" class="un" required name="hepatitis">
+                  <option value="0" selected="selected">Status..</option>
+                  <option>positive</option>
+                  <option>negative</option>
+                </select>
+
+                <!-- <div class="checkbox">
+                   <input  type="checkbox" name="positive"><span>positive</span>
+                   <input  type="checkbox" name="negative"><span>negative</span>
+                </div> -->
+
+            </div>
+
+
+            <div class="input-submit">
+                <input type="submit" class="submit">
+            </div>
+
+        </div>
+  </form>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <title>Patient dashboard</title>
+    <link rel="icon" type="images/png" href="image/logo_2.svg">
+    <link rel="stylesheet" href="stylesheets/dashboard.css">
+</head>
+<body>
+    <section>
+        <div class="major-container">
+        <div class="left-container">
+            <div class="text"><h1>General</h1></div>
+            <div class="general">
+                <div class="general-icon">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </div>
+                
+                <div class="general-icon">
+                  <a href="/patient/logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>log out</span>
+                  </a>
+                </div>
+                
+
+
+            </div>
+            <a href="/chat">
+              <div class="live-chat">
+                  <i class="far fa-comment"></i>
+                  <span>Chat</span>
+              </div>
+            </a>
+
+
+            <div class="content">
+              <h2>Contact your hospital</h2>
+              <hr>
+              <i class="far fa-hospital"></i><span>Location</span>
+              <h4><%= hospital.address %></h4>
+              <i class="fas fa-phone-alt"></i><span>Telephone No</span>
+              <h4><%= hospital.mobile %></h4>
+            </div>
+        </div>
+        <div class="middle-container">
+            <div class="text">
+                <h1>Dashboard</h1>
+            </div>
+            <div class="center">
+                <div class="texts">
+                    <h2>ID: <%= patient.refId %></h2>
+                   <h2><%= patient.name %></h2>
+                    <span>Age: <%= age %></span>
+                </div>
+            </div>
+
+            <% if(locals.report) { %>
+              <div class="bottom">
+                <div class="info1">
+                    <div class="icon1"><i class="fas fa-weight-hanging"></i></div>
+                    <div class="details1">
+                        <h4><%= report.weight %></h4>
+                        <span>Weight</span>
+                    </div>
+
+                </div>
+                <div class="info2">
+                    <div class="icon2"><i class="fas fa-male"></i></div>
+                    <div class="details2">
+                        <h4><%= report.height %></h4>
+                        <span>Height</span>
+                    </div>
+
+                </div>
+                <div class="info">
+                    <div class="icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="details">
+                        <h4><%= report.bloodPressure %></h4>
+                        <span>Pulse</span>
+                    </div>
+
+                </div>
+                <div class="info1">
+                    <div class="icon1"><i class="fas fa-tint"></i></div>
+                    <div class="details1">
+                        <h4><%= report.bloodGroup %></h4>
+                        <span>Blood group</span>
+                    </div>
+
+                </div>
+
+              </div>
+            <% } else { %>
+              <div class="text">
+                <h3>Please visit the hospital for your medical examination</h3>
+              </div>
+            <% } %>
+
+
+            <div class="text">
+                <h3>Your treatment</h3>
+            </div>
+
+            <div class="treatments">
+              <% if(locals.prescriptions.length !== 0) { %>
+                <% prescriptions.map(prescription => { %>
+                  <div class="treatment">
+                    <div class="icon"><i class="fas fa-capsules"></i></div>
+                    <div class="details">
+                        <h4><%= prescription.drug %></h4>
+                        <span><%= prescription.dosage %></span>
+                    </div>
+                    <% let deleteAnswer = "/patient" + "/" + prescription._id + "/delete" %>
+                    <div class="float-right">
+                        <a href="<%= deleteAnswer %>" class="float-right orange-btn">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </div>
+                  </div>
+                <% }) %>
+              <% } else{ %>
+                <div class="text">
+                  <h3>No assigned prescriptions yet</h3>
+                </div>
+              <% } %>
+              <!--<div class="treatment">
+                  <div class="icon"><i class="fas fa-capsules"></i></div>
+                  <div class="details">
+                      <h4>Antibiotic</h4>
+                      <span>1 tablet after a meal</span>
+                  </div>
+              </div>
+              <div class="treatment">
+                  <div class="icon"><i class="fas fa-tablets"></i></div>
+                  <div class="details">
+                      <h4>Paracetamol</h4>
+                      <span>2 tablets after a meal</span>
+                  </div>
+              </div>
+              <div class="treatment">
+                  <div class="icon"><i class="fas fa-prescription-bottle"></i></i></div>
+                  <div class="details">
+                      <h4>Folic acid</h4>
+                      <span>1 tablet after a meal</span>
+                  </div>
+              </div> -->
+            </div>
+
+
+        </div>
+        <div class="right-container">
+            <div class="notification"><i class="fas fa-bell"></i></div>
+            <!-- <div class="texts"><h3>August 2021</h3></div>
+            <div class="date">
+                <div class="day">S</div>
+                <div class="day">M</div>
+                <div class="day">T</div>
+                <div class="day">W</div>
+                <div class="day">T</div>
+                <div class="day">F</div>
+                <div class="day">S</div>
+                <div class="number"></div>
+                <div class="number"></div>
+                <div class="number"></div>
+                <div class="number"></div>
+                <div class="number">1</div>
+                <div class="number">2</div>
+                <div class="number">3</div>
+                <div class="number">4</div>
+                <div class="number">5</div>
+                <div class="number">6</div>
+                <div class="number">7</div>
+                <div class="number">8</div>
+                <div class="number">9</div>
+                <div class="number">10</div>
+                <div class="number">11</div>
+                <div class="number">12</div>
+                <div class="number">13</div>
+                <div class="number">14</div>
+                <div class="number active" >15</div>
+                <div class="number">16</div>
+                <div class="number">17</div>
+                <div class="number">18</div>
+                <div class="number">19</div>
+                <div class="number">20</div>
+                <div class="number">21</div>
+                <div class="number">22</div>
+                <div class="number">23</div>
+                <div class="number">24</div>
+                <div class="number">25</div>
+                <div class="number">26</div>
+                <div class="number">27</div>
+                <div class="number">28</div>
+                <div class="number">29</div>
+                <div class="number">30</div>
+            </div> -->
+            <div class="appointment">
+              <div class="icons"><i class="fas fa-plus"></i></div>
+              <div class="details2">
+                  <a href="/appointment.html">Create new appointment</a>
+              </div>
+
+            </div>
+            <div class="text"><h3>Daily appointments</h3></div>
+            <div class="appointments">
+              <% if (locals.appointments.length !== 0) { %>
+
+                <% for (let i = 0; i< appointments.length; i++) { %>
+                  <% if (i % 2 === 0) { %>
+                    <div class="appointment">
+                      <div class="icons"><i class="fas fa-tooth"></i></div>
+                      <div class="details2">
+                          <h4><%= appointments[i].details %></h4>
+                          <h5><%= appointments[i].day %></h5>
+                          <h5><%= appointments[i].from %> - <%= appointments[i].to %></h5>
+                          <!-- <span>Dr Traversy</span> -->
+                      </div>
+                      <% let deleteAnswer = "/patient" + "/" + appointments[i]._id + "/delete" %>
+                      <div class="float-right">
+                          <a href="<%= deleteAnswer %>" class="float-right orange-btn">
+                              <i class="fa fa-trash"></i>
+                          </a>
+                      </div>
+                    </div>
+                  <% } else { %>
+                    <div class="appointment1">
+                      <div class="icons"><i class="fas fa-tooth"></i></div>
+                      <div class="details2">
+                        <h4><%= appointments[i].details %></h4>
+                        <h5><%= appointments[i].day %></h5>
+                        <h5><%= appointments[i].from %> - <%= appointments[i].to %></h5>
+                          <!-- <span>Dr Traversy</span> -->
+                      </div>
+                      <% let deleteAnswer = "/patient" + "/" + appointments[i]._id + "/delete" %>
+                      <div class="float-right">
+                          <a href="<%= deleteAnswer %>" class="float-right orange-btn">
+                              <i class="fa fa-trash"></i>
+                          </a>
+                      </div>
+                    </div>
+                  <% } %>
+                <% } %>
+              <% }else{ %>
+                <div class="appointment">
+                  <h4>No appointments scheduled yet</h4>
+                </div>
+              <% } %>
+
+              <!-- <div class="appointment1">
+                <div class="icons"><i class="fas fa-tooth"></i></div>
+                <div class="details2">
+                  <h4>test</h4>
+                  <h5>test</h5>
+                  <h5>test</h5>
+                </div>
+              </div>
+              <div class="appointment1">
+                <div class="icons"><i class="fas fa-tooth"></i></div>
+                <div class="details2">
+                  <h4>test</h4>
+                  <h5>test</h5>
+                  <h5>test</h5>
+                </div>
+              </div> -->
+
+            </div>
+
+        </div>
+    </div>
+    </section>
+</body>
+</html>

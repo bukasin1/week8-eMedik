@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical report</title>
+    <link rel="icon" type="images/png" href="image/logo_2.svg">
+    <link rel="stylesheet" href="../../report.css">
+</head>
+<body>
+    <form method="POST" >
+        <div class="report">
+            <div class="input">
+                <label for="Fullname">PatientId</label>
+                <input type="text" name="patientId" value="<%= report.patientId %>" readonly>
+            </div>
+            <div class="input">
+              <label for="Fullname">Patient Name</label>
+              <input type="text" name="patientId" value="<%= report.patientName %>" readonly>
+            </div>
+            <div class="input">
+              <label for="Fullname">Patient Age</label>
+              <input type="text" name="patientId" value="<%= report.age %>" readonly>
+            </div>
+            <!-- <div class="input">
+                <label for="Age">Age</label>
+                <input type="text" id="date"  name="age">
+            </div> -->
+            <div class="input">
+                <label for="Weight">Weight</label>
+                <input type="text" id="time" name="weight" value="<%= report.weight %>" readonly>
+            </div>
+            <div class="input">
+                <label for="Height">Height</label>
+                <input type="text" name="height" value="<%= report.height %>" readonly>
+            </div>
+            <div class="input">
+                <label for="Bloodgroup">Blood group</label>
+                <input type="text" name="bloodgroup" value="<%= report.bloodGroup %>" readonly>
+            </div>
+            <div class="input">
+                <label for="Genotype">Genotype</label>
+                <input type="text" name="genotype" value="<%= report.genotype %>" readonly>
+            </div>
+            <div class="input">
+                <label for="bloodpressure">Blood pressure</label>
+                <input type="text" name="bloodpressure" value="<%= report.bloodPressure %>" readonly>
+            </div>
+            <div class="input">
+                <label for="HIVstatus">HIV Status</label>
+                <input type="text" name="bloodpressure" value="<%= report.HIV_status %>" readonly>
+
+            </div>
+            <div class="input">
+                <label for="Hepatitis">Hepatitis B</label>
+                <input type="text" name="bloodpressure" value="<%= report.hepatitis %>" readonly>
+
+            </div>
+
+
+        </div>
+  </form>
+</body>
+</html>

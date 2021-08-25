@@ -1,0 +1,11 @@
+{
+  "E-med": {
+      "dbConfig": {
+      "host": "localhost",
+      "port": 5984,
+      "dbName": "mongodb+srv://buks:bukasin1@cluster0.w49i4.mongodb.net/E-med?retryWrites=true&w=majority",
+      "JWT_SECRET": "GUDdamiboy_66848884$",
+      "JWT_EXPIRES_IN": "90d"
+      }
+    }
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment</title>
+    <link rel="icon" type="images/png" href="image/logo_2.svg">
+    <link rel="stylesheet" href="appointment.css">
+</head>
+<body>
+    <form method="POST" >
+        <div class="appointments">
+            <div class="input">
+                <label for="Title">Title</label>
+                <input type="text" name="details" required>
+            </div>
+            <div class="input">
+                <label for="Date">Date</label>
+                <input type="date" id="date" name="day" required>
+            </div>
+            <div class="input">
+                <label for="From">From</label>
+                <input type="time" name="from" required>
+            </div>
+            <div class="input">
+                <label for="To">To</label>
+                <input type="time" name="to" required>
+            </div>
+            <div class="input-submit">
+                <input type="submit" class="submit">
+            </div>
+
+        </div>
+  </form>
+    <script src="./appointment.js"></script>
+</body>
+</html>

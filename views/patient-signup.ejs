@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta  name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Patient Sign Up Page</title>
+        <link rel="icon" type="images/png" href="image/logo_2.svg">
+        <link rel="stylesheet" href="patient-signup.css">
+    </head>
+    <body>
+        <div class="all">
+            <div class="main">
+                <p class="sign" align="center">Patient Sign up</p>
+                <%if (locals.error) { %>
+                  <p class="text-center err"><%= error %></p>
+                <% } %>
+                <form method="POST" class="form1">
+                    <select id="choice" class="un" required name="hospital">
+                        <option value="0" selected="selected">Select Hospital...</option>
+                        <% hospitals.map(hospital => { %>
+                          <option><%= hospital.name %></option>
+                        <% }) %>
+
+                    </select>
+                    <input class="un" type="text" placeholder="Patients Name" required name="name">
+                    <input class="un" type="date" placeholder="DOB" required name="dateOfBirth">
+                    <select id="choice" class="un" required name="gender">
+                      <option value="0" selected="selected">Gender</option>
+                      <option>Male</option>
+                      <option>Female</option>
+                    </select>
+                    <!-- <input class="un" type="text" placeholder="Gender" required> -->
+                    <input class="un" type="email" placeholder="Email" required name="email">
+                    <input class="pass" type="password" placeholder="Password" required name="password">
+                    <input class="pass" type="password" placeholder="Confirm Password" required name="cPassword">
+                    <input class="un" type="tel"  placeholder="Mobile" required name="mobile">
+                    <input class="submit" type="submit" value="Sign up">
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
