@@ -13,7 +13,7 @@ const express_session_1 = __importDefault(require("express-session"));
 // import dot from 'dotenv'
 // import mgStore from 'connect-mongodb-session'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const dotenv = require("dotenv").config();
+const dotenv = require('dotenv').config();
 const MongoDBStore = require('connect-mongodb-session')(express_session_1.default);
 const mongoose_1 = __importDefault(require("mongoose"));
 const connect_flash_1 = __importDefault(require("connect-flash"));
@@ -22,20 +22,20 @@ const app = express_1.default();
 //Setting Database Sessions
 const store = new MongoDBStore({
     uri: process.env.MONGODB_URL,
-    collection: "sessions"
+    collection: 'sessions',
 });
 app.use(express_session_1.default({
     cookie: {
-        maxAge: 864e5
+        maxAge: 864e5,
     },
     secret: process.env.SESSION_SECRET,
     resave: false,
     store: store,
     saveUninitialized: true,
-    unset: "destroy",
+    unset: 'destroy',
     genid: (req) => {
         return req.url;
-    }
+    },
 }));
 //Database connection
 const dbConfig = process.env.MONGODB_URL;
@@ -45,6 +45,7 @@ mongoose_1.default
     useCreateIndex: true,
     useFindAndModify: false,
     useUnifiedTopology: true,
+    dbName: 'e-medik',
 })
     .then(() => {
     console.log('Database connected.');
